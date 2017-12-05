@@ -4,13 +4,17 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.sql.SQLException;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, SQLException {
         String sentence;
         String modifiedSentence;
         User currentUser = null;
+
+        UserService userService = new UserService();
+        MessageService messageService = new MessageService();
 
         BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
 
@@ -30,6 +34,7 @@ public class Main {
                     User user = new User(userName, userPassword);
 
                     //User in DB schreiben
+                    userService.userEinfuegen(user);
 
                     //System.out.println(user);
 
@@ -43,6 +48,7 @@ public class Main {
                     User userForLogin = new User(userNameForLogin, userPasswordForLogin);
 
                     //User aus DB auslesen und vergleichen
+                    userService.userLesen();
 
 //                    System.out.println(userForLogin);
 
@@ -57,7 +63,8 @@ public class Main {
 
                     Message message = new Message(messageText);
 
-                    //Nachricht in DB speichern
+                    //Nachricht in Datenbank schreiben
+                    messageService.writeMessage(message);
 
                   // System.out.println(message);
                     break;
